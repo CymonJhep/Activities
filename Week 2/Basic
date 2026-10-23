@@ -1,0 +1,19 @@
+import java.util.Scanner;
+public class FourFunctionCalculator {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        System.out.print("Enter first integer: ");
+        int a = input.nextInt();
+        System.out.print("Enter second integer: ");
+        int b = input.nextInt();
+
+        System.out.println("Addition: " + a + " + " + b + " = " + (a + b));
+        System.out.println("Subtraction: " + a + " - " + b + " = " + (a - b));
+        System.out.println("Multiplication: " + a + " * " + b + " = " + (a * b));
+        System.out.println("Division: " + a + " / " + b + " = " + (a / b));
+        System.out.println("Modulus: " + a + " % " + b + " = " + (a % b));
+
+        input.close();
+    }
+}
