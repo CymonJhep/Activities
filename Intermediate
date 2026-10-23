@@ -1,0 +1,23 @@
+public class ShoppingCalculator {
+    public static void main(String[] args) {
+        int quantity = 3;
+        double unitPrice = 4.99;
+        String storeName = "7 Evelyn";
+
+        double totalCost = quantity * unitPrice;
+
+        System.out.println("Store: " + storeName);
+        System.out.println("Quantity: " + quantity);
+        System.out.printf("Unit Price: $%.2f%n", unitPrice);
+        System.out.printf("Total: $%.2f%n", totalCost);
+
+        /*
+         * totalCost should NOT be an int because unitPrice is a double,
+         * so the product has decimal places (cents). Storing it in an int
+         * would truncate the fractional part (e.g., 14.97 becomes 14),
+         * losing money and giving an incorrect total. Java won't even
+         * compile int totalCost = quantity * unitPrice; without a
+         * cast, because it's a narrowing conversion.
+         */
+    }
+}
