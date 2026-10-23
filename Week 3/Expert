@@ -1,0 +1,73 @@
+public class ATMTransactionAuthorizer {
+    public static void main(String[] args) {
+        String correctUsername = "admin";
+        int correctPin = 1234;
+
+        String username = "admin";
+        int pin = 1234;
+        double balance = 7500.0;
+        double withdrawalAmount = 500.0;
+        double withdrawnToday = 0.0;
+
+        if (username.equals(correctUsername)) {
+            if (pin >= 1000 && pin <= 9999 && pin == correctPin) {
+
+                String tier;
+                if (balance >= 10000) {
+                    tier = "Platinum";
+                } else if (balance >= 5000) {
+                    tier = "Gold";
+                } else if (balance >= 1000) {
+                    tier = "Silver";
+                } else {
+                    tier = "Bronze";
+                }
+
+                double dailyLimit;
+                double feePercent;
+                switch (tier) {
+                    case "Platinum":
+                        dailyLimit = 5000;
+                        feePercent = 0.0;
+                        break;
+                    case "Gold":
+                        dailyLimit = 3000;
+                        feePercent = 0.5;
+                        break;
+                    case "Silver":
+                        dailyLimit = 1500;
+                        feePercent = 1.0;
+                        break;
+                    default:
+                        dailyLimit = 500;
+                        feePercent = 2.0;
+                        break;
+                }
+
+                double fee = withdrawalAmount * feePercent / 100;
+                double totalDeduction = withdrawalAmount + fee;
+
+                System.out.println("Account tier: " + tier);
+                System.out.println("Daily limit: $" + dailyLimit);
+                System.out.println("Fee (" + feePercent + "%): $" + fee);
+
+                if (totalDeduction <= balance) {
+                    if (withdrawnToday + withdrawalAmount <= dailyLimit) {
+                        double newBalance = balance - totalDeduction;
+                        System.out.println("APPROVED: Withdrew $" + withdrawalAmount);
+                        System.out.println("New balance: $" + newBalance);
+                    } else {
+                        System.out.println("DENIED: Withdrawal exceeds the daily limit for " + tier + " tier.");
+                    }
+                } else {
+                    System.out.println("DENIED: Insufficient balance (amount plus fee exceeds balance).");
+                }
+
+            } else {
+                System.out.println("DENIED: Incorrect PIN.");
+            }
+        } else {
+            System.out.println("DENIED: Username not found.");
+        }
+    }
+}
