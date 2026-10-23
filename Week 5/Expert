@@ -1,0 +1,125 @@
+public class ClassRankingSystem {
+
+    static class Student {
+        private String name;
+        private int[] quizzes;
+
+        public Student(String name, int[] quizzes) {
+            this.name = name;
+            this.quizzes = quizzes;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int[] getQuizzes() {
+            return quizzes;
+        }
+
+        public double getAverage() {
+            int sum = 0;
+            for (int i = 0; i < quizzes.length; i++) {
+                sum += quizzes[i];
+            }
+            return (double) sum / quizzes.length;
+        }
+    }
+
+    public static Student[] buildStudents(String[] names, int[][] rawData) {
+        Student[] students = new Student[names.length];
+        for (int i = 0; i < names.length; i++) {
+            students[i] = new Student(names[i], rawData[i]);
+        }
+        return students;
+    }
+
+    public static void sortByAverage(Student[] students) {
+        for (int i = 0; i < students.length - 1; i++) {
+            int best = i;
+            for (int j = i + 1; j < students.length; j++) {
+                double bestAvg = students[best].getAverage();
+                double currAvg = students[j].getAverage();
+                if (currAvg > bestAvg) {
+                    best = j;
+                } else if (currAvg == bestAvg
+                        && students[j].getName().compareTo(students[best].getName()) < 0) {
+                    best = j;
+                }
+            }
+            Student temp = students[i];
+            students[i] = students[best];
+            students[best] = temp;
+        }
+    }
+
+    public static int findRank(Student[] sorted, String name) {
+        for (int i = 0; i < sorted.length; i++) {
+            if (sorted[i].getName().equalsIgnoreCase(name)) {
+                int position = i;
+                while (position > 0
+                        && sorted[position - 1].getAverage() == sorted[i].getAverage()) {
+                    position--;
+                }
+                return position + 1;
+            }
+        }
+        return -1;
+    }
+
+    public static void printLeaderboard(Student[] sorted) {
+        System.out.println("========== CLASS LEADERBOARD ==========");
+        System.out.printf("%-6s %-10s %-22s %s%n", "Rank", "Name", "Quizzes", "Average");
+        System.out.println("---------------------------------------");
+        for (int i = 0; i < sorted.length; i++) {
+            int rank = findRank(sorted, sorted[i].getName());
+            boolean tied = false;
+            if (i > 0 && sorted[i - 1].getAverage() == sorted[i].getAverage()) {
+                tied = true;
+            }
+            if (i < sorted.length - 1 && sorted[i + 1].getAverage() == sorted[i].getAverage()) {
+                tied = true;
+            }
+
+            String quizText = "";
+            int[] q = sorted[i].getQuizzes();
+            for (int j = 0; j < q.length; j++) {
+                quizText += q[j];
+                if (j < q.length - 1) {
+                    quizText += ", ";
+                }
+            }
+
+            System.out.printf("%-6s %-10s %-22s %.2f%s%n",
+                    rank, sorted[i].getName(), quizText, sorted[i].getAverage(),
+                    tied ? "  (tie)" : "");
+        }
+        System.out.println("=======================================");
+    }
+
+    public static void main(String[] args) {
+        String[] names = {"Cymon", "John", "Ryan", "Karl"};
+
+        int[][] rawData = {
+            {90, 85, 95, 88},
+            {80, 85, 90, 85},
+            {85, 90, 80, 85},
+            {70, 75, 80, 72}
+        };
+
+        Student[] students = buildStudents(names, rawData);
+        sortByAverage(students);
+        printLeaderboard(students);
+
+        String[] searches = {"Cymon", "John", "Ryan", "Karl", "Joseph"};
+        System.out.println();
+        for (int i = 0; i < searches.length; i++) {
+            int rank = findRank(students, searches[i]);
+            if (rank == -1) {
+                System.out.println(searches[i] + " was not found.");
+            } else {
+                System.out.println(searches[i] + " is ranked #" + rank);
+            }
+        }
+    }
+}
