@@ -1,0 +1,20 @@
+public class PrecedencePuzzleSolver {
+    public static void main(String[] args) {
+        int a = 5;
+        int b = 3;
+        int c = 2;
+
+        int r1 = a + b * c - a / c;
+        System.out.println("a + b * c - a / c = " + r1);
+
+        boolean r2 = a > b && b < c || c == 2;
+        System.out.println("a > b && b < c || c == 2 = " + r2);
+
+        int x = 4;
+        int r3 = x++ * 2 + --x;
+        System.out.println("x++ * 2 + --x = " + r3);
+
+        boolean r4 = !(a % 2 == 0) && b + c > a - 1;
+        System.out.println("!(a % 2 == 0) && b + c > a - 1 = " + r4);
+    }
+}
