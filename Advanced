@@ -1,0 +1,19 @@
+public class UnitCastingConverter {
+    public static void main(String[] args) {
+        double centimeters = 275.5;
+
+        int wholeMeters = (int) (centimeters / 100);
+        double remainingCm = centimeters - (wholeMeters * 100);
+
+        System.out.println("Total: " + centimeters + " cm");
+        System.out.println("Equivalent: " + wholeMeters + " m and " + remainingCm + " cm");
+
+        int wholeNumber = 42;
+        double widened = wholeNumber;
+        System.out.println("Widened int to double: " + widened);
+
+        double decimalValue = 9.87;
+        int narrowed = (int) decimalValue;
+        System.out.println("Narrowed double to int: " + narrowed);
+    }
+}
