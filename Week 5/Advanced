@@ -1,0 +1,28 @@
+import java.util.Arrays;
+
+public class SearchSortMiniTool {
+    public static void main(String[] args) {
+        int[] scores = {85, 92, 78, 65, 90, 88, 73, 95, 81, 69};
+        int target = 88;
+
+        int foundIndex = -1;
+        for (int i = 0; i < scores.length; i++) {
+            if (scores[i] == target) {
+                foundIndex = i;
+                break;
+            }
+        }
+
+        if (foundIndex != -1) {
+            System.out.println("Target " + target + " found at index " + foundIndex);
+        } else {
+            System.out.println("Target " + target + " not found");
+        }
+
+        int[] sortedScores = Arrays.copyOf(scores, scores.length);
+        Arrays.sort(sortedScores);
+
+        System.out.println("Original: " + Arrays.toString(scores));
+        System.out.println("Sorted:   " + Arrays.toString(sortedScores));
+    }
+}
