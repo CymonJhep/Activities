@@ -1,0 +1,26 @@
+public class CompoundGrowthTracker {
+    public static void main(String[] args) {
+        double balance = 1000.0;
+        System.out.println("Initial balance: " + balance);
+
+        balance += 500;
+        System.out.println("After += 500: " + balance);
+
+        balance *= 1.05;
+        System.out.println("After *= 1.05: " + balance);
+
+        balance += 250;
+        System.out.println("After += 250: " + balance);
+
+        balance *= 1.10;
+        System.out.println("After *= 1.10: " + balance);
+
+        int count = 5;
+        System.out.println("count++ prints: " + count++);
+        System.out.println("count afterward: " + count);
+
+        count = 5;
+        System.out.println("++count prints: " + ++count);
+        System.out.println("count afterward: " + count);
+    }
+}
