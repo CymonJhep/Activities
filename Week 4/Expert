@@ -1,0 +1,120 @@
+import java.util.Scanner;
+
+public class WarehouseInventoryScanner {
+    static final int CRITICAL_LEVEL = 5;
+
+    public static void main(String[] args) {
+        int[][] warehouse = {
+            {20, 15, -1},
+            {8, 3, 12},
+            {-1, 25, 4}
+        };
+
+        Scanner input = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println("\n=== Warehouse Menu ===");
+            System.out.println("1. Total inventory");
+            System.out.println("2. Find first critically low shelf");
+            System.out.println("3. Restock a shelf");
+            System.out.println("4. Exit");
+            choice = readInt(input, "Choose an option: ");
+
+            switch (choice) {
+                case 1:
+                    System.out.println("Total inventory: " + totalInventory(warehouse));
+                    break;
+                case 2:
+                    findFirstCriticallyLow(warehouse);
+                    break;
+                case 3:
+                    restock(warehouse, input);
+                    break;
+                case 4:
+                    System.out.println("Exiting. Goodbye!");
+                    break;
+                default:
+                    System.out.println("Invalid option. Choose 1-4.");
+            }
+        } while (choice != 4);
+
+        input.close();
+    }
+
+    static int totalInventory(int[][] warehouse) {
+        int total = 0;
+        for (int row = 0; row < warehouse.length; row++) {
+            for (int col = 0; col < warehouse[row].length; col++) {
+                if (warehouse[row][col] == -1) {
+                    continue;
+                }
+                total += warehouse[row][col];
+            }
+        }
+        return total;
+    }
+
+    static void findFirstCriticallyLow(int[][] warehouse) {
+        int foundRow = -1;
+        int foundCol = -1;
+
+        for (int row = 0; row < warehouse.length; row++) {
+            for (int col = 0; col < warehouse[row].length; col++) {
+                int count = warehouse[row][col];
+                if (count >= 0 && count < CRITICAL_LEVEL) {
+                    foundRow = row;
+                    foundCol = col;
+                    break;
+                }
+            }
+            if (foundRow != -1) {
+                break;
+            }
+        }
+
+        if (foundRow == -1) {
+            System.out.println("No critically low shelves found.");
+        } else {
+            System.out.println("First critically low shelf: row " + foundRow
+                    + ", col " + foundCol + " (" + warehouse[foundRow][foundCol] + " items)");
+        }
+    }
+
+    static void restock(int[][] warehouse, Scanner input) {
+        while (true) {
+            int row = readInt(input, "Enter row (0-" + (warehouse.length - 1) + "): ");
+            int col = readInt(input, "Enter column (0-" + (warehouse[0].length - 1) + "): ");
+
+            if (row < 0 || row >= warehouse.length || col < 0 || col >= warehouse[0].length) {
+                System.out.println("Invalid shelf location. Try again.");
+                continue;
+            }
+
+            if (warehouse[row][col] == -1) {
+                System.out.println("That shelf is damaged and cannot be restocked.");
+                return;
+            }
+
+            int amount = readInt(input, "Enter amount to add: ");
+            if (amount <= 0) {
+                System.out.println("Amount must be positive. Try again.");
+                continue;
+            }
+
+            warehouse[row][col] += amount;
+            System.out.println("Restocked. Shelf [" + row + "][" + col + "] now has "
+                    + warehouse[row][col] + " items.");
+            return;
+        }
+    }
+
+    static int readInt(Scanner input, String prompt) {
+        System.out.print(prompt);
+        while (!input.hasNextInt()) {
+            input.next();
+            System.out.print("Please enter a whole number: ");
+        }
+        return input.nextInt();
+    }
+}
