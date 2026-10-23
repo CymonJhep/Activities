@@ -1,0 +1,28 @@
+public class OverflowReferenceInvestigator {
+    public static void main(String[] args) {
+        byte b = 127;
+        b++;
+        System.out.println("byte 127 + 1 = " + b);
+
+        String s1 = new String("hello");
+        String s2 = new String("hello");
+        String s3 = "hello";
+
+        System.out.println("s1 == s2: " + (s1 == s2));
+        System.out.println("s1 == s3: " + (s1 == s3));
+        System.out.println("s2 == s3: " + (s2 == s3));
+
+        System.out.println("s1.equals(s2): " + s1.equals(s2));
+        System.out.println("s1.equals(s3): " + s1.equals(s3));
+        System.out.println("s2.equals(s3): " + s2.equals(s3));
+
+        int[] original = {1, 2, 3};
+        int[] alias = original;
+
+        alias[0] = 99;
+
+        System.out.println("original[0]: " + original[0]);
+        System.out.println("alias[0]: " + alias[0]);
+        System.out.println("original == alias: " + (original == alias));
+    }
+}
